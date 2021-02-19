@@ -1,0 +1,8 @@
+prefix=/home/catvehicle-1.1.0pre/devel
+
+Name: azcar_sim
+Description: Description of azcar_sim
+Version: 0.0.0
+Cflags: -I/home/catvehicle-1.1.0pre/src/azcar_sim/include
+Libs: -L${prefix}/lib -lazcar_sim
+Requires: geometry_msgs roscpp rospy sensor_msgs std_msgs velodyne_pointcloud tf
