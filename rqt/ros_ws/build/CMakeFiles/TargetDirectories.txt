@@ -224,6 +224,13 @@
 /home/ros_ws/build/turtlebot3/turtlebot3_teleop/CMakeFiles/rebuild_cache.dir
 /home/ros_ws/build/turtlebot3/turtlebot3_teleop/CMakeFiles/edit_cache.dir
 /home/ros_ws/build/turtlebot3/turtlebot3_teleop/CMakeFiles/test.dir
+/home/ros_ws/build/turtlesim_demo/CMakeFiles/install/strip.dir
+/home/ros_ws/build/turtlesim_demo/CMakeFiles/install/local.dir
+/home/ros_ws/build/turtlesim_demo/CMakeFiles/install.dir
+/home/ros_ws/build/turtlesim_demo/CMakeFiles/list_install_components.dir
+/home/ros_ws/build/turtlesim_demo/CMakeFiles/rebuild_cache.dir
+/home/ros_ws/build/turtlesim_demo/CMakeFiles/edit_cache.dir
+/home/ros_ws/build/turtlesim_demo/CMakeFiles/test.dir
 /home/ros_ws/build/turtlebot3/turtlebot3_description/CMakeFiles/install/local.dir
 /home/ros_ws/build/turtlebot3/turtlebot3_description/CMakeFiles/install.dir
 /home/ros_ws/build/turtlebot3/turtlebot3_description/CMakeFiles/list_install_components.dir

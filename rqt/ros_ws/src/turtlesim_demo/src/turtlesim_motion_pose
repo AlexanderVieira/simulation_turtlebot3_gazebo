@@ -1,0 +1,87 @@
+#!/usr/bin/env python3
+
+import rospy, time, sys, math, angles
+from geometry_msgs.msg import Twist, Pose2D
+from turtlesim.msg import Pose
+from std_srvs.srv import Empty
+
+odom = Pose2D()
+goal = Pose2D()
+k_v = 0.7
+k_w = 0.8
+gain = [k_v,k_w]
+
+def poseCallback(pose_message):
+    
+    global odom
+    odom.x = pose_message.x
+    odom.y = pose_message.y
+    odom.theta = pose_message.theta
+
+def goalCallback(goal_message):
+    
+    global goal
+    goal = goal_message    
+
+
+def command(odom, goal, gain):   
+            
+    #get current location 
+    pos_x = odom.x
+    pos_y = odom.y
+    theta = odom.theta           
+    
+    #set goal
+    desire_x = goal.x
+    desire_y = goal.y
+    desire_theta = goal.theta
+
+    K_v = gain[0]
+    K_omega = gain[1]
+
+    delta_x = desire_x - pos_x
+    delta_y = desire_y - pos_y 
+
+    error_pos = round(math.sqrt(delta_x ** 2) + (delta_y ** 2),3)
+    heading = round(math.atan2(delta_y,delta_x),3)
+    erro_theta = angles.shortest_angular_distance(theta,heading)
+
+    vel = K_v * error_pos
+    omega = K_omega*erro_theta
+
+    velocity_message = Twist()
+    velocity_message.linear.x = vel
+    velocity_message.angular.z = omega
+            
+    return velocity_message            
+    
+def control():
+    try:
+        global odom
+        global gain
+        global goal
+
+        rospy.init_node('turtlesim_motion_pose', anonymous=True)
+
+        #declare velocity publisher
+        cmd_vel_topic='/turtle1/cmd_vel'
+        velocity_publisher = rospy.Publisher(cmd_vel_topic, Twist, queue_size=10)        
+        position_topic = "/turtle1/pose"
+        pose_subscriber = rospy.Subscriber(position_topic, Pose, poseCallback)
+        goal_topic = '/goal'
+        goal_subscriber = rospy.Subscriber(goal_topic, Pose2D, goalCallback)
+        rate = rospy.Rate(15)
+
+        while not rospy.is_shutdown():
+                   
+            velocity_message = command(odom, goal, gain)            
+            rospy.loginfo(velocity_message)
+            velocity_publisher.publish(velocity_message)
+            rate.sleep()
+       
+    except rospy.ROSInterruptException:
+        rospy.loginfo("node terminated.")
+
+
+if __name__ == '__main__':
+    control()
